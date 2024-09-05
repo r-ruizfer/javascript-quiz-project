@@ -26,7 +26,7 @@ document.addEventListener("DOMContentLoaded", () => {
   
   // Array with the quiz questions
   const questions = [
-    new Question("What is 2 + 2?", ["3", "4", "5", "6"], "4", 1),
+    new Question("¿Cuál fue el primer Pokemon diseñado?", ["MewTow", "4", "5", "6"], "4", 1),
     new Question("What is the capital of France?", ["Miami", "Paris", "Oslo", "Rome"], "Paris", 1),
     new Question("Who created JavaScript?", ["Plato", "Brendan Eich", "Lea Verou", "Bill Gates"], "Brendan Eich", 2),
     new Question("What is the mass–energy equivalence equation?", ["E = mc^2", "E = m*c^2", "E = m*c^3", "E = m*c"], "E = mc^2", 3)
@@ -34,6 +34,7 @@ document.addEventListener("DOMContentLoaded", () => {
   ];
   const quizDuration = 120; // 120 seconds (2 minutes)
 
+  
 
   /************  QUIZ INSTANCE  ************/
   
@@ -57,14 +58,43 @@ document.addEventListener("DOMContentLoaded", () => {
   showQuestion();
 
 
-  /************  TIMER  ************/
+//*************    TIMER   *****************/
+  let timer = setInterval(() => {
+    quiz.timeRemaining--
 
-  let timer;
+    const minutes = Math.floor(quiz.timeRemaining / 60).toString().padStart(2, "0");
+    const seconds = (quiz.timeRemaining % 60).toString().padStart(2, "0");
+  
+    // Display the time remaining in the time remaining container
+    const timeRemainingContainer = document.getElementById("timeRemaining");
+    timeRemainingContainer.innerText = `${minutes}:${seconds}`;
+
+    if (quiz.timeRemaining===0){
+      clearInterval(timer)
+      showResults()
+      
+    }
+    
+  
+  }, 1000)
+
+
+
+let reStartBtn = document.querySelector(".button-secondary")
+
+
+
+
+
 
 
   /************  EVENT LISTENERS  ************/
 
   nextButton.addEventListener("click", nextButtonHandler);
+
+  reStartBtn.addEventListener("click", reStartQuiz);
+
+
 
 
 
@@ -74,6 +104,39 @@ document.addEventListener("DOMContentLoaded", () => {
   // nextButtonHandler() - Handles the click on the next button
   // showResults() - Displays the end view and the quiz results
 
+  function reStartQuiz() {
+    quiz.shuffleQuestions()
+    quiz.getQuestion()
+    showQuestion()
+    quiz.timeRemaining = quizDuration
+    const minutes = Math.floor(quiz.timeRemaining / 60).toString().padStart(2, "0");
+    const seconds = (quiz.timeRemaining % 60).toString().padStart(2, "0");
+
+    timer = setInterval(() => {
+      quiz.timeRemaining--
+  
+      const minutes = Math.floor(quiz.timeRemaining / 60).toString().padStart(2, "0");
+      const seconds = (quiz.timeRemaining % 60).toString().padStart(2, "0");
+    
+      // Display the time remaining in the time remaining container
+      const timeRemainingContainer = document.getElementById("timeRemaining");
+      timeRemainingContainer.innerText = `${minutes}:${seconds}`;
+  
+      if (quiz.timeRemaining===0){
+        clearInterval(timer)
+        showResults()
+        
+      }
+      
+    
+    }, 1000)
+
+  
+    const timeRemainingContainer = document.getElementById("timeRemaining");
+    timeRemainingContainer.innerText = `${minutes}:${seconds}`;
+    quizView.style.display = "block"
+    endView.style.display= "none"
+  }
   
   function showQuestion() {
     // If the quiz has ended, show the results
@@ -187,7 +250,6 @@ document.addEventListener("DOMContentLoaded", () => {
       quiz.moveToNextQuestion()
       showQuestion()
     }
-    // else if ()
   })
       
     // 3. If an answer is selected (`selectedAnswer`), check if it is correct and move to the next question
@@ -198,11 +260,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
-
   function showResults() {
-
     // YOUR CODE HERE:
-    //
+
+  
     // 1. Hide the quiz view (div#quizView)
     quizView.style.display = "none";
 
@@ -210,7 +271,7 @@ document.addEventListener("DOMContentLoaded", () => {
     endView.style.display = "flex";
     
     // 3. Update the result container (div#result) inner text to show the number of correct answers out of total questions
-    resultContainer.innerText = `You scored 1 out of 1 correct answers!`; // This value is hardcoded as a placeholder
+    resultContainer.innerText = `You scored ${quiz.correctAnswers} out of ${quiz.questions.length} correct answers!`; // This value is hardcoded as a placeholder
   }
   
 });
