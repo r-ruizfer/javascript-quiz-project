@@ -100,24 +100,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // Update the inner text of the question container element and show the question text
     console.log(question.choices)
     questionContainer.innerText = question.text
-    question.choices.forEach(eachElement => {
-      let radioContainer = document.createElement("div")
-        
-      let inputElement = document.createElement("input")
-      inputElement.type= "radio"
-      inputElement.name= "elecciones"
-      inputElement.value= eachElement
-      
-      let labelElement = document.createElement("label")
-      labelElement.textContent = eachElement
-  
-      radioContainer.appendChild(inputElement)
-      radioContainer.appendChild(labelElement)
-  
-      let parentElement = document.getElementById("choices")
-      parentElement.appendChild(radioContainer)
-  
-    })
+    
     
 
     
@@ -157,8 +140,26 @@ document.addEventListener("DOMContentLoaded", () => {
       // Hint 2: You can use the `element.type`, `element.name`, and `element.value` properties to set the type, name, and value of an element.
       // Hint 3: You can use the `element.appendChild()` method to append an element to the choices container.
       // Hint 4: You can use the `element.innerText` property to set the inner text of an element.
-
-  }
+      question.choices.forEach(eachElement => {
+        let radioContainer = document.createElement("div")
+          
+        let inputElement = document.createElement("input")
+        inputElement.type= "radio"
+        inputElement.name= "elecciones"
+        inputElement.value= eachElement
+        
+        let labelElement = document.createElement("label")
+        labelElement.textContent = eachElement
+    
+        radioContainer.appendChild(inputElement)
+        radioContainer.appendChild(labelElement)
+    
+        let parentElement = document.getElementById("choices")
+        parentElement.appendChild(radioContainer)
+    
+      })
+  
+    }
   
   
 
