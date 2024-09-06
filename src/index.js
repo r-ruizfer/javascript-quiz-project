@@ -49,7 +49,7 @@ document.addEventListener("DOMContentLoaded", () => {
       3
     ),
     // Add more que
-    
+
     new Question(
       "Cual es el numero maximo de estrellas que puede tener una bola de dragon?",
       ["7", "4", "10", "5"],
@@ -114,24 +114,24 @@ document.addEventListener("DOMContentLoaded", () => {
   //*************    TIMER   *****************/
   function startTimer() {
     let timer = setInterval(() => {
-    quiz.timeRemaining--;
+      quiz.timeRemaining--;
 
-    const minutes = Math.floor(quiz.timeRemaining / 60)
-      .toString()
-      .padStart(2, "0");
-    const seconds = (quiz.timeRemaining % 60).toString().padStart(2, "0");
+      const minutes = Math.floor(quiz.timeRemaining / 60)
+        .toString()
+        .padStart(2, "0");
+      const seconds = (quiz.timeRemaining % 60).toString().padStart(2, "0");
 
-    // Display the time remaining in the time remaining container
-    const timeRemainingContainer = document.getElementById("timeRemaining");
-    timeRemainingContainer.innerText = `${minutes}:${seconds}`;
+      // Display the time remaining in the time remaining container
+      const timeRemainingContainer = document.getElementById("timeRemaining");
+      timeRemainingContainer.innerText = `${minutes}:${seconds}`;
 
-    if (quiz.timeRemaining === 0) {
-      clearInterval(timer);
-      showResults();
-    }
-  }, 1000);
-}
-startTimer()
+      if (quiz.timeRemaining === 0) {
+        clearInterval(timer);
+        showResults();
+      }
+    }, 1000);
+  }
+  startTimer();
   let reStartBtn = document.querySelector(".button-secondary");
 
   /************  EVENT LISTENERS  ************/
@@ -147,29 +147,22 @@ startTimer()
   // showResults() - Displays the end view and the quiz results
 
   function reStartQuiz() {
-    quiz.currentQuestionIndex = 0
-    quiz.correctAnswers = 0
+    quiz.currentQuestionIndex = 0;
+    quiz.correctAnswers = 0;
+    quiz.timeRemaining = quizDuration;
+    timeRemainingContainer.innerText = `${minutes}:${seconds}`;
     progressBar.style.width = `${
-      ((quiz.currentQuestionIndex) / quiz.questions.length) * 100
+      (quiz.currentQuestionIndex / quiz.questions.length) * 100
     }%`;
-    questionCount.innerText = `Question ${quiz.currentQuestionIndex +1} of ${
+    questionCount.innerText = `Question ${quiz.currentQuestionIndex + 1} of ${
       quiz.questions.length
     }`;
     quiz.shuffleQuestions();
     quiz.getQuestion();
     showQuestion();
-    quiz.timeRemaining = quizDuration;
-    const minutes = Math.floor(quiz.timeRemaining / 60)
-      .toString()
-      .padStart(2, "0");
-    const seconds = (quiz.timeRemaining % 60).toString().padStart(2, "0");
-
-  
-
-    const timeRemainingContainer = document.getElementById("timeRemaining");
-    timeRemainingContainer.innerText = `${minutes}:${seconds}`;
-    startTimer()
     
+    
+
     quizView.style.display = "block";
     endView.style.display = "none";
   }
